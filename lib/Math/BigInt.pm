@@ -44,37 +44,38 @@ class Math::BigInt does Real {
     method Bridge() {
         +self.Str;
     }
+    
+    multi sub infix:<+>(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
+        my $result = Math::BigInt.new("1");
+        bdAdd($result.bd, $a.bd, $b.bd);
+        $result;
+    }
+
+    multi sub infix:<+>(Math::BigInt $a, Int $b) is export(:DEFAULT) {
+        my $result = Math::BigInt.new("1");
+        bdAdd($result.bd, $a.bd, Math::BigInt.new($b).bd);
+        $result;
+    }
+
+    multi sub infix:<+>(Int $a, Math::BigInt $b) is export(:DEFAULT) {
+        my $result = Math::BigInt.new("1");
+        bdAdd($result.bd, Math::BigInt.new($a).bd, $b.bd);
+        $result;
+    }
+
+    multi sub infix:<->(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
+        my $result = Math::BigInt.new("1");
+        bdSubtract($result.bd, $a.bd, $b.bd);
+        $result;
+    }
+
+    multi sub infix:<*>(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
+        my $result = Math::BigInt.new("1");
+        bdMultiply($result.bd, $a.bd, $b.bd);
+        $result;
+    }
 }
 
-our multi sub infix:<+>(Math::BigInt $a, Math::BigInt $b) {
-    my $result = Math::BigInt.new("1");
-    bdAdd($result.bd, $a.bd, $b.bd);
-    $result;
-}
-
-our multi sub infix:<+>(Math::BigInt $a, Int $b) {
-    my $result = Math::BigInt.new("1");
-    bdAdd($result.bd, $a.bd, Math::BigInt.new($b).bd);
-    $result;
-}
-
-our multi sub infix:<+>(Int $a, Math::BigInt $b) {
-    my $result = Math::BigInt.new("1");
-    bdAdd($result.bd, Math::BigInt.new($a).bd, $b.bd);
-    $result;
-}
-
-our multi sub infix:<->(Math::BigInt $a, Math::BigInt $b) {
-    my $result = Math::BigInt.new("1");
-    bdSubtract($result.bd, $a.bd, $b.bd);
-    $result;
-}
-
-our multi sub infix:<*>(Math::BigInt $a, Math::BigInt $b) {
-    my $result = Math::BigInt.new("1");
-    bdMultiply($result.bd, $a.bd, $b.bd);
-    $result;
-}
 
 
 # multi MAIN() {
