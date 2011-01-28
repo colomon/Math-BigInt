@@ -36,19 +36,19 @@ class Math::BigInt does Real {
     }
 }
 
-multi sub infix:<+>(Math::BigInt $a, Math::BigInt $b) {
+our multi sub infix:<+>(Math::BigInt $a, Math::BigInt $b) {
     my $result = Math::BigInt.new("1");
     bdAdd($result.bd, $a.bd, $b.bd);
     $result;
 }
 
-multi sub infix:<->(Math::BigInt $a, Math::BigInt $b) {
+our multi sub infix:<->(Math::BigInt $a, Math::BigInt $b) {
     my $result = Math::BigInt.new("1");
     bdSubtract($result.bd, $a.bd, $b.bd);
     $result;
 }
 
-multi sub infix:<*>(Math::BigInt $a, Math::BigInt $b) {
+our multi sub infix:<*>(Math::BigInt $a, Math::BigInt $b) {
     my $result = Math::BigInt.new("1");
     bdMultiply($result.bd, $a.bd, $b.bd);
     $result;
@@ -60,6 +60,8 @@ multi MAIN() {
     say Math::BigInt.new("131414212321313141") + Math::BigInt.new("1000000000000000000000000000000");
     my @crazy := Math::BigInt.new("1"), -> $x { $x * Math::BigInt.new("2") } ... *;
     say ~@crazy[100];
+    my @crazier := Math::BigInt.new("1"), -> $x { $x + Math::BigInt.new("1") } ... *;
+    say [*] @crazier[^50];
 }
 
 multi MAIN("playing") {
