@@ -21,6 +21,12 @@ class Math::BigInt does Real {
         bdConvFromDecimal($bd, $digits);
         self.bless(*, :$bd)
     }
+
+    multi method new(Int $n) {
+        my $bd = bdNew();
+        bdConvFromDecimal($bd, ~$n);
+        self.bless(*, :$bd)
+    }
     
     method Str() {
         my $space = malloc(1000);
@@ -34,11 +40,27 @@ class Math::BigInt does Real {
         free($space);
         $result;
     }
+    
+    method Bridge() {
+        +self.Str;
+    }
 }
 
 our multi sub infix:<+>(Math::BigInt $a, Math::BigInt $b) {
     my $result = Math::BigInt.new("1");
     bdAdd($result.bd, $a.bd, $b.bd);
+    $result;
+}
+
+our multi sub infix:<+>(Math::BigInt $a, Int $b) {
+    my $result = Math::BigInt.new("1");
+    bdAdd($result.bd, $a.bd, Math::BigInt.new($b).bd);
+    $result;
+}
+
+our multi sub infix:<+>(Int $a, Math::BigInt $b) {
+    my $result = Math::BigInt.new("1");
+    bdAdd($result.bd, Math::BigInt.new($a).bd, $b.bd);
     $result;
 }
 
@@ -55,33 +77,35 @@ our multi sub infix:<*>(Math::BigInt $a, Math::BigInt $b) {
 }
 
 
-multi MAIN() {
-    my $a = Math::BigInt.new("131414212321313141");
-    say Math::BigInt.new("131414212321313141") + Math::BigInt.new("1000000000000000000000000000000");
-    my @crazy := Math::BigInt.new("1"), -> $x { $x * Math::BigInt.new("2") } ... *;
-    say ~@crazy[100];
-    my @crazier := Math::BigInt.new("1"), -> $x { $x + Math::BigInt.new("1") } ... *;
-    say [*] @crazier[^50];
-}
-
-multi MAIN("playing") {
-    my $a = bdNew();
-    my $b = bdNew();
-    my $c = bdNew();
-    bdConvFromDecimal($a, "43857389573984758937458347535");
-    bdConvFromDecimal($b, "1");
-    bdAdd($c, $a, $b);
-    # bdConvFromDecimal($b, "10");
-    # bdModulo($a, $c, $b);
-
-    my $space = malloc(1000);
-    bdConvToDecimal($c, $space, 999);
-
-    say strcat($space, "");
-
-    free($space);
-
-    bdFreeSol($a);
-    bdFreeSol($b);
-    bdFreeSol($c);
-}
+# multi MAIN() {
+#     my $a = Math::BigInt.new("131414212321313141");
+#     say Math::BigInt.new("131414212321313141") + Math::BigInt.new("1000000000000000000000000000000");
+#     my @crazy := Math::BigInt.new("1"), -> $x { $x * Math::BigInt.new("2") } ... *;
+#     say ~@crazy[100];
+#     my @crazier := Math::BigInt.new("1"), * + 1 ... *;
+#     say [*] @crazier[^70];
+#     say ([*] @crazier[^70]).log;
+#     say $a * 2;
+# }
+# 
+# multi MAIN("playing") {
+#     my $a = bdNew();
+#     my $b = bdNew();
+#     my $c = bdNew();
+#     bdConvFromDecimal($a, "43857389573984758937458347535");
+#     bdConvFromDecimal($b, "1");
+#     bdAdd($c, $a, $b);
+#     # bdConvFromDecimal($b, "10");
+#     # bdModulo($a, $c, $b);
+# 
+#     my $space = malloc(1000);
+#     bdConvToDecimal($c, $space, 999);
+# 
+#     say strcat($space, "");
+# 
+#     free($space);
+# 
+#     bdFreeSol($a);
+#     bdFreeSol($b);
+#     bdFreeSol($c);
+# }
