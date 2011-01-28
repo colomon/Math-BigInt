@@ -1,0 +1,2 @@
+This is an attempt to implement a BigInt class for Rakudo, to tide us over
+until Rakudo's Int class can handle arbitrary precision internally.

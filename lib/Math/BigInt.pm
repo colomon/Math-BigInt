@@ -4,6 +4,8 @@ sub bdNew() returns OpaquePointer is native("libbd") { ... }
 sub bdFreeSol(OpaquePointer $bd) is native("libbd") { ... }
 sub bdConvFromDecimal(OpaquePointer $bd, Str $digits) returns Int is native("libbd") { ... }
 sub bdAdd(OpaquePointer $w, OpaquePointer $u, OpaquePointer $v) returns Int is native("libbd") { ... }
+sub bdSubtract(OpaquePointer $w, OpaquePointer $u, OpaquePointer $v) returns Int is native("libbd") { ... }
+sub bdMultiply(OpaquePointer $w, OpaquePointer $u, OpaquePointer $v) returns Int is native("libbd") { ... }
 sub bdModulo(OpaquePointer $w, OpaquePointer $u, OpaquePointer $v) returns Int is native("libbd") { ... }
 sub bdConvToDecimal(OpaquePointer $bd, OpaquePointer $s, Int $smax) returns Int is native("libbd") { ... }
 
@@ -40,10 +42,24 @@ multi sub infix:<+>(Math::BigInt $a, Math::BigInt $b) {
     $result;
 }
 
+multi sub infix:<->(Math::BigInt $a, Math::BigInt $b) {
+    my $result = Math::BigInt.new("1");
+    bdSubtract($result.bd, $a.bd, $b.bd);
+    $result;
+}
+
+multi sub infix:<*>(Math::BigInt $a, Math::BigInt $b) {
+    my $result = Math::BigInt.new("1");
+    bdMultiply($result.bd, $a.bd, $b.bd);
+    $result;
+}
+
 
 multi MAIN() {
     my $a = Math::BigInt.new("131414212321313141");
     say Math::BigInt.new("131414212321313141") + Math::BigInt.new("1000000000000000000000000000000");
+    my @crazy := Math::BigInt.new("1"), -> $x { $x * Math::BigInt.new("2") } ... *;
+    say ~@crazy[100];
 }
 
 multi MAIN("playing") {
