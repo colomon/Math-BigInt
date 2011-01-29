@@ -93,6 +93,22 @@ plan *;
     is $a, "800000000000000000", "and it's 800000000000000000";
 }
 
+# modulo BigInts and BigInts
+{
+    my $a = Math::BigInt.new("43452454234524532423");
+    my $b = Math::BigInt.new("2");
+
+    my $c = $a % $b;
+    isa_ok $c, Math::BigInt, "43452454234524532423 % 2 is a BigInt";
+    is $c, "1", "and it's 1";
+    
+    $c = $a % 2;
+    isa_ok $c, Int, "43452454234524532423 % 2 is an Int";
+    is $c, 1, "and it's 1";
+}
+
+
+
 
 
 

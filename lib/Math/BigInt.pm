@@ -103,6 +103,18 @@ class Math::BigInt does Real {
         bdMultiply($result.bd, Math::BigInt.new($a).bd, $b.bd);
         $result;
     }
+    
+    multi sub infix:<%>(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
+        my $result = Math::BigInt.new("1");
+        bdModulo($result.bd, $a.bd, $b.bd);
+        $result;
+    }
+
+    multi sub infix:<%>(Math::BigInt $a, Int $b) is export(:DEFAULT) {
+        my $result = Math::BigInt.new("1");
+        bdModulo($result.bd, $a.bd, Math::BigInt.new($b).bd);
+        $result.Int;
+    }
 }
 
 
