@@ -50,6 +50,14 @@ class Math::BigInt does Real {
     
     method succ(Math::BigInt $x:) { bdIncrement($x.bd); self; }
     method pred(Math::BigInt $x:) { bdDecrement($x.bd); self; } 
+
+    multi sub postfix:<¹>(Int $a) is export(:DEFAULT) {
+        Math::BigInt.new(~$a);
+    }
+
+    multi sub postfix:<¹>(Str $a) is export(:DEFAULT) {
+        Math::BigInt.new($a);
+    }
     
     multi sub infix:<+>(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
         my $result = Math::BigInt.new("1");

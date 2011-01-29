@@ -14,7 +14,7 @@ plan *;
 }
 
 {
-    my @fib := Math::BigInt.new(1), Math::BigInt.new(1), *+* ... *;
+    my @fib := 1¹, 1¹, *+* ... *;
     isa_ok @fib[200], Math::BigInt, "201st Fib is a BigInt";
     is ~@fib[200], "453973694165307953197296969697410619233826", 
                    "201st Fib is 453973694165307953197296969697410619233826";
