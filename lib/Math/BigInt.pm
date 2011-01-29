@@ -3,6 +3,8 @@ use NativeCall;
 sub bdNew() returns OpaquePointer is native("libbd") { ... }
 sub bdFreeSol(OpaquePointer $bd) is native("libbd") { ... }
 sub bdConvFromDecimal(OpaquePointer $bd, Str $digits) returns Int is native("libbd") { ... }
+sub bdIncrement(OpaquePointer $w) returns Int is native("libbd") { ... }
+sub bdDecrement(OpaquePointer $w) returns Int is native("libbd") { ... }
 sub bdAdd(OpaquePointer $w, OpaquePointer $u, OpaquePointer $v) returns Int is native("libbd") { ... }
 sub bdSubtract(OpaquePointer $w, OpaquePointer $u, OpaquePointer $v) returns Int is native("libbd") { ... }
 sub bdMultiply(OpaquePointer $w, OpaquePointer $u, OpaquePointer $v) returns Int is native("libbd") { ... }
@@ -44,6 +46,9 @@ class Math::BigInt does Real {
     method Bridge() {
         +self.Str;
     }
+    
+    method succ(Math::BigInt $x:) { bdIncrement($x.bd); self; }
+    method pred(Math::BigInt $x:) { bdDecrement($x.bd); self; } 
     
     multi sub infix:<+>(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
         my $result = Math::BigInt.new("1");
