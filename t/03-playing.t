@@ -20,4 +20,11 @@ plan *;
                    "201st Fib is 453973694165307953197296969697410619233826";
 }
 
+{
+    my @powers-of-two := Math::BigInt.new(1), * * 2 ... *;
+    isa_ok @powers-of-two[80], Math::BigInt, "2**80 is a BigInt";
+    is @powers-of-two[80], "1208925819614629174706176", 
+                           "2**80 is 1208925819614629174706176";
+}
+
 done;
