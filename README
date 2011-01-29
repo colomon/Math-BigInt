@@ -1,2 +1,29 @@
 This is an attempt to implement a BigInt class for Rakudo, to tide us over
 until Rakudo's Int class can handle arbitrary precision internally.
+
+Installing:
+Math::BigInt is set up as a normal Perl 6 module.  However, it has rather more
+prerequisites than normal:
+
+1) You must have Zavolaj installed and working.  
+
+2) You must have the BigDigits routines installed as a dynamic libbd library
+on your system. The BigDigits source is available from
+http://www.di-mgt.com.au/bigdigits.html .  However, it doesn't have any provision
+for making and installing the needed library.  Right now you need to do this by
+hand.  I hope to provide platform independent makefiles for this at some point.
+
+3) Right now it calls malloc, free, and strcat from libSystem. If you're on a
+platform other than OS X, you'll have to change this to the appropriate place
+to find those calls. (This is lines 15-17 in lib/Math/BigInt.pm.) Again, I
+hope to have a better workaround for this someday.
+
+Once all that is in place, this is easily built using the standard ufo tool:
+
+ufo
+make
+make test
+make install
+
+As of this writing, neither BigDigits nor Math::BigInts properly handles
+negative numbers. Hopefully this is a temporary limitation.

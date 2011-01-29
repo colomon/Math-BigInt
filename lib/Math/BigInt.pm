@@ -139,38 +139,3 @@ class Math::BigInt does Real {
         $result.Int;
     }
 }
-
-
-
-# multi MAIN() {
-#     my $a = Math::BigInt.new("131414212321313141");
-#     say Math::BigInt.new("131414212321313141") + Math::BigInt.new("1000000000000000000000000000000");
-#     my @crazy := Math::BigInt.new("1"), -> $x { $x * Math::BigInt.new("2") } ... *;
-#     say ~@crazy[100];
-#     my @crazier := Math::BigInt.new("1"), * + 1 ... *;
-#     say [*] @crazier[^70];
-#     say ([*] @crazier[^70]).log;
-#     say $a * 2;
-# }
-# 
-# multi MAIN("playing") {
-#     my $a = bdNew();
-#     my $b = bdNew();
-#     my $c = bdNew();
-#     bdConvFromDecimal($a, "43857389573984758937458347535");
-#     bdConvFromDecimal($b, "1");
-#     bdAdd($c, $a, $b);
-#     # bdConvFromDecimal($b, "10");
-#     # bdModulo($a, $c, $b);
-# 
-#     my $space = malloc(1000);
-#     bdConvToDecimal($c, $space, 999);
-# 
-#     say strcat($space, "");
-# 
-#     free($space);
-# 
-#     bdFreeSol($a);
-#     bdFreeSol($b);
-#     bdFreeSol($c);
-# }
