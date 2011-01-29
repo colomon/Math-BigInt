@@ -1,7 +1,7 @@
 use NativeCall;
 
 sub bdNew() returns OpaquePointer is native("libbd") { ... }
-sub bdFreeSol(OpaquePointer $bd) is native("libbd") { ... }
+# sub bdFreeSol(OpaquePointer $bd) is native("libbd") { ... }
 sub bdConvFromDecimal(OpaquePointer $bd, Str $digits) returns Int is native("libbd") { ... }
 sub bdIncrement(OpaquePointer $w) returns Int is native("libbd") { ... }
 sub bdDecrement(OpaquePointer $w) returns Int is native("libbd") { ... }
