@@ -8,6 +8,7 @@ sub bdDecrement(OpaquePointer $w) returns Int is native("libbd") { ... }
 sub bdAdd(OpaquePointer $w, OpaquePointer $u, OpaquePointer $v) returns Int is native("libbd") { ... }
 sub bdSubtract(OpaquePointer $w, OpaquePointer $u, OpaquePointer $v) returns Int is native("libbd") { ... }
 sub bdMultiply(OpaquePointer $w, OpaquePointer $u, OpaquePointer $v) returns Int is native("libbd") { ... }
+sub bdDivide(OpaquePointer $q, OpaquePointer $r, OpaquePointer $u, OpaquePointer $v) returns Int is native("libbd") { ... }
 sub bdModulo(OpaquePointer $w, OpaquePointer $u, OpaquePointer $v) returns Int is native("libbd") { ... }
 sub bdConvToDecimal(OpaquePointer $bd, OpaquePointer $s, Int $smax) returns Int is native("libbd") { ... }
 
@@ -104,6 +105,20 @@ class Math::BigInt does Real {
         $result;
     }
     
+    multi sub infix:<div>(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
+        my $result = Math::BigInt.new("1");
+        my $r = Math::BigInt.new("1");
+        bdDivide($result.bd, $r.bd, $a.bd, $b.bd);
+        $result;
+    }
+
+    multi sub infix:<div>(Math::BigInt $a, Int $b) is export(:DEFAULT) {
+        my $result = Math::BigInt.new("1");
+        my $r = Math::BigInt.new("1");
+        bdDivide($result.bd, $r.bd, $a.bd, Math::BigInt.new($b).bd);
+        $result;
+    }
+
     multi sub infix:<%>(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
         my $result = Math::BigInt.new("1");
         bdModulo($result.bd, $a.bd, $b.bd);

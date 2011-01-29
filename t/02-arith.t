@@ -93,6 +93,20 @@ plan *;
     is $a, "800000000000000000", "and it's 800000000000000000";
 }
 
+# div BigInts and BigInts
+{
+    my $a = Math::BigInt.new("43452454234524532423");
+    my $b = Math::BigInt.new("2");
+
+    my $c = ($a * $b) div $b;
+    isa_ok $c, Math::BigInt, "43452454234524532423 * 2 div 2 is a BigInt";
+    is $c, "43452454234524532423", "and it's 43452454234524532423";
+    
+    $c = ($a * $b) div 2;
+    isa_ok $c, Math::BigInt, "43452454234524532423 * 2 div 2 is a BigInt";
+    is $c, "43452454234524532423", "and it's 43452454234524532423";
+}
+
 # modulo BigInts and BigInts
 {
     my $a = Math::BigInt.new("43452454234524532423");
@@ -106,7 +120,6 @@ plan *;
     isa_ok $c, Int, "43452454234524532423 % 2 is an Int";
     is $c, 1, "and it's 1";
 }
-
 
 
 
