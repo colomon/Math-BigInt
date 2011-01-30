@@ -128,6 +128,8 @@ plan *;
         is @powers-of-three[$i], 3¹ ** $i, "3 ** $i agrees (integer power)";
         is @powers-of-three[$i], 3¹ ** Math::BigInt.new($i), "3 ** $i agrees (Math::BigInt power)";
     }
+    
+    is (2¹)**80, "1208925819614629174706176", "2**80 is 1208925819614629174706176";
 }
 
 
