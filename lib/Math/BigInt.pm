@@ -13,6 +13,7 @@ sub bdModulo(OpaquePointer $w, OpaquePointer $u, OpaquePointer $v) returns Int i
 sub bdConvToDecimal(OpaquePointer $bd, OpaquePointer $s, Int $smax) returns Int is native("libbd") { ... }
 sub bdIsEqual(OpaquePointer $a, OpaquePointer $b) returns Int is native("libbd") { ... }
 sub bdCompare(OpaquePointer $a, OpaquePointer $b) returns Int is native("libbd") { ... }
+sub bdIsZero(OpaquePointer $a) returns Int is native("libbd") { ... }
 
 sub malloc(Int $n) returns OpaquePointer is native("libSystem") { ... }
 sub free(OpaquePointer $p) is native("libSystem") { ... }
@@ -46,8 +47,12 @@ class Math::BigInt does Real {
         $result;
     }
     
-    method Bridge() {
-        +self.Str;
+    method Bridge(Math::BigInt $x:) {
+        +$x.Str;
+    }
+    
+    method Bool(Math::BigInt $x:) {
+        !bdIsZero($x.bd);
     }
     
     method succ(Math::BigInt $x:) { bdIncrement($x.bd); self; }
@@ -139,6 +144,24 @@ class Math::BigInt does Real {
         my $result = Math::BigInt.new("1");
         bdModulo($result.bd, $a.bd, Math::BigInt.new($b).bd);
         $result.Int;
+    }
+
+    multi sub infix:<**>(Math::BigInt $a, Math::BigInt $b is copy) is export(:DEFAULT) {
+        my $result = Math::BigInt.new("1");
+        my $power = $a;
+        loop {
+            my $r = $b % 2;
+            if $r {
+                $result = $result * $power;
+            }
+            $b = ($b - $r) div 2;
+            last unless $b;
+        }
+        $result;
+    }
+
+    multi sub infix:<**>(Math::BigInt $a, Int $b) is export(:DEFAULT) {
+        $a ** Math::BigInt.new($b);
     }
     
     # Comparison operators

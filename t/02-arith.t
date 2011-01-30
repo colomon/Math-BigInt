@@ -121,6 +121,16 @@ plan *;
     is $c, 1, "and it's 1";
 }
 
+# power!
+{
+    my @powers-of-three := Math::BigInt.new(1), * * 3 ... *;
+    for ^20 -> $i {
+        is @powers-of-three[$i], 3¹ ** $i, "3 ** $i agrees (integer power)";
+        is @powers-of-three[$i], 3¹ ** Math::BigInt.new($i), "3 ** $i agrees (Math::BigInt power)";
+    }
+}
+
+
 
 
 

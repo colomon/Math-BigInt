@@ -29,6 +29,7 @@ plan *;
     is +$b, 22, ".succ works";
     $a = $b.pred;
     is +$a, 21, ".pred works";
+    ok $a.Bool, "and 21.Bool is true";
     
     $a++;
     is +$a, 22, "Increment works";
@@ -36,6 +37,7 @@ plan *;
     $a--;
     is +$a, 21, "Decrement works";
     isa_ok $a, Math::BigInt, "It's still a BigInt";
+    nok ($a - $a).Bool, "0 is false";
 }
 
 done;
