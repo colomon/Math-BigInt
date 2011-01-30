@@ -11,6 +11,8 @@ sub bdMultiply(OpaquePointer $w, OpaquePointer $u, OpaquePointer $v) returns Int
 sub bdDivide(OpaquePointer $q, OpaquePointer $r, OpaquePointer $u, OpaquePointer $v) returns Int is native("libbd") { ... }
 sub bdModulo(OpaquePointer $w, OpaquePointer $u, OpaquePointer $v) returns Int is native("libbd") { ... }
 sub bdConvToDecimal(OpaquePointer $bd, OpaquePointer $s, Int $smax) returns Int is native("libbd") { ... }
+sub bdIsEqual(OpaquePointer $a, OpaquePointer $b) returns Int is native("libbd") { ... }
+sub bdCompare(OpaquePointer $a, OpaquePointer $b) returns Int is native("libbd") { ... }
 
 sub malloc(Int $n) returns OpaquePointer is native("libSystem") { ... }
 sub free(OpaquePointer $p) is native("libSystem") { ... }
@@ -137,5 +139,39 @@ class Math::BigInt does Real {
         my $result = Math::BigInt.new("1");
         bdModulo($result.bd, $a.bd, Math::BigInt.new($b).bd);
         $result.Int;
+    }
+    
+    # Comparison operators
+
+    multi sub infix:<cmp>(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
+        $a <=> $b;
+    }
+
+    multi sub infix:«<=>»(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
+        bdCompare($a.bd, $b.bd);
+    }
+
+    multi sub infix:«==»(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
+        ?bdIsEqual($a.bd, $b.bd);
+    }
+
+    multi sub infix:«!=»(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
+        !bdIsEqual($a.bd, $b.bd);
+    }
+
+    multi sub infix:«<»(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
+        ($a <=> $b) == -1;
+    }
+
+    multi sub infix:«>»(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
+        ($a <=> $b) == 1;
+    }
+
+    multi sub infix:«<=»(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
+        ($a <=> $b) != 1;
+    }
+
+    multi sub infix:«>=»(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
+        ($a <=> $b) != -1;
     }
 }
