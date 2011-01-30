@@ -156,6 +156,7 @@ class Math::BigInt does Real {
             }
             $b = ($b - $r) div 2;
             last unless $b;
+            $power = $power * $power;
         }
         $result;
     }
