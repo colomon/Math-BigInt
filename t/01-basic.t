@@ -40,4 +40,9 @@ plan *;
     nok ($a - $a).Bool, "0 is false";
 }
 
+{
+    isa_ok 1L, Math::BigInt, "1L creates a BigInt";
+    ok 1L, "and it's True";
+}
+
 done;

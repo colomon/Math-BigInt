@@ -125,11 +125,11 @@ plan *;
 {
     my @powers-of-three := Math::BigInt.new(1), * * 3 ... *;
     for ^20 -> $i {
-        is @powers-of-three[$i], 3¹ ** $i, "3 ** $i agrees (integer power)";
-        is @powers-of-three[$i], 3¹ ** Math::BigInt.new($i), "3 ** $i agrees (Math::BigInt power)";
+        is @powers-of-three[$i], 3L ** $i, "3 ** $i agrees (integer power)";
+        is @powers-of-three[$i], 3L ** Math::BigInt.new($i), "3 ** $i agrees (Math::BigInt power)";
     }
     
-    is (2¹)**80, "1208925819614629174706176", "2**80 is 1208925819614629174706176";
+    is (2L)**80, "1208925819614629174706176", "2**80 is 1208925819614629174706176";
 }
 
 
