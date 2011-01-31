@@ -45,4 +45,9 @@ plan *;
     ok 1L, "and it's True";
 }
 
+{
+    my @fifty = 1L ... 50L;
+    is ~@fifty, ~(1..50), "1L ... 50L works right";
+}
+
 done;

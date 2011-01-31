@@ -55,8 +55,8 @@ class Math::BigInt does Real {
         !bdIsZero($x.bd);
     }
     
-    method succ(Math::BigInt $x:) { bdIncrement($x.bd); self; }
-    method pred(Math::BigInt $x:) { bdDecrement($x.bd); self; } 
+    method succ(Math::BigInt $x:) { $x + 1; }
+    method pred(Math::BigInt $x:) { $x - 1; } 
 
     multi sub postfix:<L>(Str $a) is export(:DEFAULT) {
         Math::BigInt.new($a);
