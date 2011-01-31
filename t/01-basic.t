@@ -47,7 +47,11 @@ plan *;
 
 {
     my @fifty = 1L ... 50L;
-    is ~@fifty, ~(1..50), "1L ... 50L works right";
+    is +@fifty.grep(Math::BigInt), 50, "1L ... 50L enerated an array of 50 BigInts...";
+    is ~@fifty, ~(1..50), "... with the correct values.";
+    @fifty = 1L .. 50L;
+    is +@fifty.grep(Math::BigInt), 50, "1L .. 50L enerated an array of 50 BigInts...";
+    is ~@fifty, ~(1..50), "... with the correct values.";
 }
 
 done;

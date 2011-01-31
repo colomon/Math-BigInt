@@ -21,9 +21,7 @@ plan *;
     }
 
     is ~$b, ~$a, 'L* and * both generate is exactly 50!';
-    my @fifty = 1L ... 50L;
-    is ~@fifty, ~(1..50), "1L ... 50L works right";
-    # is ~reducewith(&infix:<*>, @fifty), ~$a, 'and so does reduced * on 1L..50L';
+    is ~reducewith(&infix:<*>, 1L..50L), ~$a, 'and so does reduced * on 1L..50L';
     is ~reducewith(&infix:<L*>, 1..50), ~$a, 'and so does reduced L* on 1..50';
     
     # skip "Rakudo does not properly find infix:<L*> for [L*]";
