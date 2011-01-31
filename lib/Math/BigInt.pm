@@ -198,4 +198,53 @@ class Math::BigInt does Real {
     multi sub infix:«>=»(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
         ($a <=> $b) != -1;
     }
+    
+    # Bonus operators (to work around a Rakudo bug affecting meta-operators)
+    our multi sub infix:<L+>(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
+        my $result = Math::BigInt.new("1");
+        bdAdd($result.bd, $a.bd, $b.bd);
+        $result;
+    }
+
+    our multi sub infix:<L+>(Math::BigInt $a, Int $b) is export(:DEFAULT) {
+        my $result = Math::BigInt.new("1");
+        bdAdd($result.bd, $a.bd, Math::BigInt.new($b).bd);
+        $result;
+    }
+
+    our multi sub infix:<L+>(Int $a, Math::BigInt $b) is export(:DEFAULT) {
+        my $result = Math::BigInt.new("1");
+        bdAdd($result.bd, Math::BigInt.new($a).bd, $b.bd);
+        $result;
+    }
+
+    our multi sub infix:<L+>(Int $a, Int $b) is export(:DEFAULT) {
+        my $result = Math::BigInt.new("1");
+        bdAdd($result.bd, Math::BigInt.new($a).bd, Math::BigInt.new($b).bd);
+        $result;
+    }
+
+    our multi sub infix:<L*>(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
+        my $result = Math::BigInt.new("1");
+        bdMultiply($result.bd, $a.bd, $b.bd);
+        $result;
+    }
+
+    our multi sub infix:<L*>(Math::BigInt $a, Int $b) is export(:DEFAULT) {
+        my $result = Math::BigInt.new("1");
+        bdMultiply($result.bd, $a.bd, Math::BigInt.new($b).bd);
+        $result;
+    }
+
+    our multi sub infix:<L*>(Int $a, Math::BigInt $b) is export(:DEFAULT) {
+        my $result = Math::BigInt.new("1");
+        bdMultiply($result.bd, Math::BigInt.new($a).bd, $b.bd);
+        $result;
+    }
+
+    our multi sub infix:<L*>(Int $a, Int $b) is export(:DEFAULT) {
+        my $result = Math::BigInt.new("1");
+        bdMultiply($result.bd, Math::BigInt.new($a).bd, Math::BigInt.new($b).bd);
+        $result;
+    }
 }
