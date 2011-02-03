@@ -75,7 +75,7 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(docdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libbd_la_LIBADD =
 am_libbd_la_OBJECTS = bigd.lo bigdRand.lo bigdigits.lo \
-	bigdigitsRand.lo
+	bigdigitsRand.lo bigSol.lo
 libbd_la_OBJECTS = $(am_libbd_la_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -217,7 +217,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 lib_LTLIBRARIES = libbd.la
-libbd_la_SOURCES = bigd.c bigdRand.c bigdigits.c bigdigitsRand.c
+libbd_la_SOURCES = bigd.c bigdRand.c bigdigits.c bigdigitsRand.c bigSol.c
 dist_doc_DATA = README
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -315,6 +315,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bigSol.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bigd.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bigdRand.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bigdigits.Plo@am__quote@

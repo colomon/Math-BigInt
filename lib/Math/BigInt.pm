@@ -15,9 +15,9 @@ sub bdIsEqual(OpaquePointer $a, OpaquePointer $b) returns Int is native("libbd")
 sub bdCompare(OpaquePointer $a, OpaquePointer $b) returns Int is native("libbd") { ... }
 sub bdIsZero(OpaquePointer $a) returns Int is native("libbd") { ... }
 
-sub malloc(Int $n) returns OpaquePointer is native("libSystem") { ... }
-sub free(OpaquePointer $p) is native("libSystem") { ... }
-sub strcat(OpaquePointer $s, Str $t) returns Str is native("libSystem") { ... }
+sub bdSolMalloc(Int $n) returns OpaquePointer is native("libbd") { ... }
+sub bdSolFree(OpaquePointer $p) is native("libbd") { ... }
+sub bdSolStrCast(OpaquePointer $s) returns Str is native("libbd") { ... }
 
 class Math::BigInt does Real {
     has $.bd;
@@ -35,15 +35,15 @@ class Math::BigInt does Real {
     }
     
     method Str() {
-        my $space = malloc(1000);
+        my $space = bdSolMalloc(1000);
         my $size = bdConvToDecimal($.bd, $space, 0);
         if $size > 999 {
-            free($space);
-            $space = malloc($size + 1);
+            bdSolFree($space);
+            $space = bdSolMalloc($size + 1);
         }
         bdConvToDecimal($.bd, $space, $size + 1);
-        my $result = strcat($space, "");
-        free($space);
+        my $result = bdSolStrCast($space);
+        bdSolFree($space);
         $result;
     }
     
