@@ -2,7 +2,7 @@
     "name"        : "Math::BigInt",
     "version"     : "*",
     "description" : "Arbitrary precision Int class",
-    "depends"     : [zavolaj],
+    "depends"     : ["NativeCall"],
     "repo-type"   : "git",
     "repo-url"    : "git://github.com/colomon/Math-BigInt.git"
 }
