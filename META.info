@@ -1,0 +1,8 @@
+{
+    "name"        : "Math::BigInt",
+    "version"     : "*",
+    "description" : "Arbitrary precision Int class",
+    "depends"     : [zavolaj],
+    "repo-type"   : "git",
+    "repo-url"    : "git://github.com/colomon/Math-BigInt.git"
+}
