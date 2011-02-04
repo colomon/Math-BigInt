@@ -18,6 +18,9 @@ plan *;
     is ~$a, "1234567890098765432100123456789", "Stringifies properly";
     todo "Rakudo's handling of long ints is very broken";
     is_approx +$a, 1234567890098765432100123456789, "Numifies properly";
+    
+    my $b = $a.perl.eval;
+    is ~$b, ~$b, ".perl.eval works as a round trip";
 }
 
 {

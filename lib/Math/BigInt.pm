@@ -34,6 +34,10 @@ class Math::BigInt does Real {
         self.bless(*, :$bd)
     }
     
+    multi method perl() {
+        qq<Math::BigInt.new("{ self.Str }")>;
+    }
+    
     method Str() {
         my $space = bdSolMalloc(1000);
         my $size = bdConvToDecimal($.bd, $space, 0);
