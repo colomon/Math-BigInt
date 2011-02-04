@@ -10,6 +10,7 @@ sub bdSubtract(OpaquePointer $w, OpaquePointer $u, OpaquePointer $v) returns Int
 sub bdMultiply(OpaquePointer $w, OpaquePointer $u, OpaquePointer $v) returns Int is native("libbd") { ... }
 sub bdDivide(OpaquePointer $q, OpaquePointer $r, OpaquePointer $u, OpaquePointer $v) returns Int is native("libbd") { ... }
 sub bdModulo(OpaquePointer $w, OpaquePointer $u, OpaquePointer $v) returns Int is native("libbd") { ... }
+sub bdGcd(OpaquePointer $g, OpaquePointer $x, OpaquePointer $y) returns Int is native("libbd") { ... }
 sub bdConvToDecimal(OpaquePointer $bd, OpaquePointer $s, Int $smax) returns Int is native("libbd") { ... }
 sub bdIsEqual(OpaquePointer $a, OpaquePointer $b) returns Int is native("libbd") { ... }
 sub bdCompare(OpaquePointer $a, OpaquePointer $b) returns Int is native("libbd") { ... }
@@ -249,6 +250,12 @@ class Math::BigInt does Real {
     our multi sub infix:<L*>(Int $a, Int $b) is export(:DEFAULT) {
         my $result = Math::BigInt.new("1");
         bdMultiply($result.bd, Math::BigInt.new($a).bd, Math::BigInt.new($b).bd);
+        $result;
+    }
+    
+    our multi sub gcd(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
+        my $result = Math::BigInt.new("1");
+        bdGcd($result.bd, $a.bd, $b.bd);
         $result;
     }
 }
