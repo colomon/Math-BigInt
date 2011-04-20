@@ -3,6 +3,6 @@
     "version"     : "*",
     "description" : "Arbitrary precision Int class",
     "depends"     : ["NativeCall"],
-    "repo-type"   : "git",
-    "repo-url"    : "git://github.com/colomon/Math-BigInt.git"
+    "source-type"   : "git",
+    "source-url"    : "git://github.com/colomon/Math-BigInt.git"
 }
