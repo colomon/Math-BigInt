@@ -22,17 +22,22 @@ sub bdSolStrCast(OpaquePointer $s) returns Str is native("libbd") { ... }
 
 class Math::BigInt does Real {
     has $.bd;
+    has $.negative;
     
     multi method new(Str $digits) {
-        my $bd = bdNew();
-        bdConvFromDecimal($bd, $digits);
-        self.bless(*, :$bd)
+        if $digits ~~ /(\-?)(\d+)/ {
+            my $bd = bdNew();
+            bdConvFromDecimal($bd, $1);
+            self.bless(*, :$bd, :negative($0 eq "-"));
+        } else {
+            fail "Improper format for BigInt";
+        }
     }
 
     multi method new(Int $n) {
         my $bd = bdNew();
-        bdConvFromDecimal($bd, ~$n);
-        self.bless(*, :$bd)
+        bdConvFromDecimal($bd, ~$n.abs);
+        self.bless(*, :$bd, :negative($n < 0));
     }
     
     multi method perl() {
@@ -49,7 +54,7 @@ class Math::BigInt does Real {
         bdConvToDecimal($.bd, $space, $size + 1);
         my $result = bdSolStrCast($space);
         bdSolFree($space);
-        $result;
+        $.negative ?? "-$result" !! $result;
     }
     
     method Bridge(Math::BigInt $x:) {
