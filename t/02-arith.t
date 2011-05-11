@@ -164,9 +164,18 @@ plan *;
 
 # gcd!
 {
-    is gcd(25L, 24L), 1, "gcd of 25 and 24 is 1";
-    is gcd(25L, 5L), 5, "gcd of 25 and 5 is 5";
-    is gcd(25L, 30L), 5, "gcd of 25 and 30 is 5";
+    isa_ok 25L gcd 24L, Math::BigInt, "25L gcd 24L is a Math::BigInt";
+    is 25L gcd 24L, 1, "gcd of 25 and 24 is 1";
+    is 25L gcd 5L, 5, "gcd of 25 and 5 is 5";
+    is 25L gcd 30L, 5, "gcd of 25 and 30 is 5";
+    isa_ok 25L gcd 24, Math::BigInt, "25L gcd 24 is a Math::BigInt";
+    is 25L gcd 24, 1, "gcd of 25 and 24 is 1";
+    is 25L gcd 5, 5, "gcd of 25 and 5 is 5";
+    is 25L gcd 30, 5, "gcd of 25 and 30 is 5";
+    isa_ok 25 gcd 24L, Math::BigInt, "25 gcd 24L is a Math::BigInt";
+    is 25 gcd 24L, 1, "gcd of 25 and 24 is 1";
+    is 25 gcd 5L, 5, "gcd of 25 and 5 is 5";
+    is 25 gcd 30L, 5, "gcd of 25 and 30 is 5";
 }
 
 

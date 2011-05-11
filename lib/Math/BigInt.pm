@@ -181,6 +181,24 @@ class Math::BigInt does Real {
         $a ** Math::BigInt.new($b);
     }
     
+    multi sub infix:<gcd>(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
+        my $result = Math::BigInt.new("1");
+        bdGcd($result.bd, $a.bd, $b.bd);
+        $result;
+    }
+
+    multi sub infix:<gcd>(Math::BigInt $a, Int $b) is export(:DEFAULT) {
+        my $result = Math::BigInt.new("1");
+        bdGcd($result.bd, $a.bd, Math::BigInt.new($b).bd);
+        $result;
+    }
+
+    multi sub infix:<gcd>(Int $a, Math::BigInt $b) is export(:DEFAULT) {
+        my $result = Math::BigInt.new("1");
+        bdGcd($result.bd, Math::BigInt.new($a).bd, $b.bd);
+        $result;
+    }
+    
     # Comparison operators
 
     multi sub infix:<cmp>(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
