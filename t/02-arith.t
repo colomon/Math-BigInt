@@ -13,6 +13,33 @@ plan *;
     is $c, "100000000000000001", "and it's 100000000000000001";
 }
 
+{
+    my $a = Math::BigInt.new("100000000000000000");
+    my $b = Math::BigInt.new("-1");
+
+    my $c = $a + $b;
+    isa_ok $c, Math::BigInt, "100000000000000000 + -1 is a BigInt";
+    is $c, "99999999999999999", "and it's 99999999999999999";
+}
+
+{
+    my $a = Math::BigInt.new("-100000000000000000");
+    my $b = Math::BigInt.new("1");
+
+    my $c = $a + $b;
+    isa_ok $c, Math::BigInt, "-100000000000000000 + 1 is a BigInt";
+    is $c, "-99999999999999999", "and it's -99999999999999999";
+}
+
+{
+    my $a = Math::BigInt.new("-100000000000000000");
+    my $b = Math::BigInt.new("-1");
+
+    my $c = $a + $b;
+    isa_ok $c, Math::BigInt, "-100000000000000000 + -1 is a BigInt";
+    is $c, "-100000000000000001", "and it's -100000000000000001";
+}
+
 # adding normal ints and BigInts
 {
     my $a = Math::BigInt.new("100000000000000000");
