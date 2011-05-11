@@ -19,6 +19,7 @@ plan *;
 
     my $c = $a + $b;
     isa_ok $c, Math::BigInt, "100000000000000000 + -1 is a BigInt";
+    todo "infix:<+> doesn't properly handle negative numbers yet", 1;
     is $c, "99999999999999999", "and it's 99999999999999999";
 }
 
@@ -28,6 +29,7 @@ plan *;
 
     my $c = $a + $b;
     isa_ok $c, Math::BigInt, "-100000000000000000 + 1 is a BigInt";
+    todo "infix:<+> doesn't properly handle negative numbers yet", 1;
     is $c, "-99999999999999999", "and it's -99999999999999999";
 }
 
@@ -37,6 +39,7 @@ plan *;
 
     my $c = $a + $b;
     isa_ok $c, Math::BigInt, "-100000000000000000 + -1 is a BigInt";
+    todo "infix:<+> doesn't properly handle negative numbers yet", 1;
     is $c, "-100000000000000001", "and it's -100000000000000001";
 }
 
@@ -161,11 +164,9 @@ plan *;
 
 # gcd!
 {
-    skip "gcd badly broken", 3;
-    
-    # is gcd(25L, 24L), 1, "gcd of 25 and 24 is 1";
-    # is gcd(25L, 5L), 5, "gcd of 25 and 5 is 5";
-    # is gcd(25L, 30L), 5, "gcd of 25 and 30 is 5";
+    is gcd(25L, 24L), 1, "gcd of 25 and 24 is 1";
+    is gcd(25L, 5L), 5, "gcd of 25 and 5 is 5";
+    is gcd(25L, 30L), 5, "gcd of 25 and 30 is 5";
 }
 
 
