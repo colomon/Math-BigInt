@@ -57,6 +57,27 @@ plan *;
         isa_ok $c, Math::BigInt, "long difference of $a-int and $b-int is a BigInt";
         is $c, $a-int - $b-int, "and it's { $a-int - $b-int }";
     }
+    
+    for @numbers X @numbers -> $a-int, $b-int {
+        my $a = Math::BigInt.new($a-int);
+        my $b = Math::BigInt.new($b-int);
+
+        my $c = $a * $b;
+        isa_ok $c, Math::BigInt, "long product of $a-int and $b-int is a BigInt";
+        is $c, $a-int * $b-int, "and it's { $a-int * $b-int }";
+
+        $c = $b * $a;
+        isa_ok $c, Math::BigInt, "long product of $b-int and $a-int is a BigInt";
+        is $c, $b-int * $a-int, "and it's { $b-int * $a-int }";
+
+        $c = $a * $b-int;
+        isa_ok $c, Math::BigInt, "long product of $a-int and $b-int is a BigInt";
+        is $c, $a-int * $b-int, "and it's { $a-int * $b-int }";
+        
+        $c = $a-int * $b;
+        isa_ok $c, Math::BigInt, "long product of $a-int and $b-int is a BigInt";
+        is $c, $a-int * $b-int, "and it's { $a-int * $b-int }";
+    }
 }
 
 # adding normal ints and BigInts

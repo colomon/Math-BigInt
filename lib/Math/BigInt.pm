@@ -111,7 +111,18 @@ class Math::BigInt does Real {
         }
         $result;
     }
-    
+
+    my sub Product(Math::BigInt $a, Math::BigInt $b) {
+        my $result;
+        if $a == 0 || $b == 0 {
+            $result = Math::BigInt.new(0);
+        } else {
+            $result = Math::BigInt.new($a, :negate($b.negative));
+            bdMultiply($result.bd, $a.bd, $b.bd);
+        }
+        $result;
+    }
+
     multi sub infix:<+>(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
         Add($a, $b);
     }
@@ -137,21 +148,15 @@ class Math::BigInt does Real {
     }
 
     multi sub infix:<*>(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
-        my $result = Math::BigInt.new("1");
-        bdMultiply($result.bd, $a.bd, $b.bd);
-        $result;
+        Product($a, $b);
     }
 
     multi sub infix:<*>(Math::BigInt $a, Int $b) is export(:DEFAULT) {
-        my $result = Math::BigInt.new("1");
-        bdMultiply($result.bd, $a.bd, Math::BigInt.new($b).bd);
-        $result;
+        Product($a, Math::BigInt.new($b));
     }
 
     multi sub infix:<*>(Int $a, Math::BigInt $b) is export(:DEFAULT) {
-        my $result = Math::BigInt.new("1");
-        bdMultiply($result.bd, Math::BigInt.new($a).bd, $b.bd);
-        $result;
+        Product(Math::BigInt.new($a), $b);
     }
     
     multi sub infix:<div>(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
