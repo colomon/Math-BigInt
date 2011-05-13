@@ -78,6 +78,33 @@ plan *;
         isa_ok $c, Math::BigInt, "long product of $a-int and $b-int is a BigInt";
         is $c, $a-int * $b-int, "and it's { $a-int * $b-int }";
     }
+
+    # in the long run, this should work for negative numbers as well
+    for @numbers.grep(*>0) X @numbers.grep(*>0) -> $a-int, $b-int {
+        my $a = Math::BigInt.new($a-int);
+        my $b = Math::BigInt.new($b-int);
+    
+        if $a-int != 0 
+        {
+            my $c = $b div $a;
+            isa_ok $c, Math::BigInt, "long dividend of $b-int and $a-int is a BigInt";
+            is $c, $b-int div $a-int, "and it's { $b-int div $a-int }";
+        }
+        
+        if $b-int != 0
+        {
+            my $c = $a div $b;
+            isa_ok $c, Math::BigInt, "long dividend of $a-int and $b-int is a BigInt";
+            is $c, $a-int div $b-int, "and it's { $a-int div $b-int }";
+            
+            $c = $a div $b-int;
+            isa_ok $c, Math::BigInt, "long dividend of $a-int and $b-int is a BigInt";
+            is $c, $a-int div $b-int, "and it's { $a-int div $b-int }";
+        }
+    }
+    
+    todo "Negative div not rounding properly", 1;
+    is (-4)L div 3L, -4 div 3, "-4L div 3L should be the same as -4 div 3";
 }
 
 # adding normal ints and BigInts
@@ -109,7 +136,6 @@ plan *;
 
     $c = $b - $a;
     isa_ok $c, Math::BigInt, "1 - 100000000000000000 is a BigInt";
-    todo "BigDigits can't handle negative numbers?";
     is $c, "-99999999999999999", "and it's -99999999999999999";
 }
 
@@ -123,7 +149,6 @@ plan *;
     
     $a = 1 - $b;
     isa_ok $a, Math::BigInt, "1 - 99999999999999999 is a BigInt";
-    todo "BigDigits can't handle negative numbers?";
     is $a, "-99999999999999998", "and it's -99999999999999998";
 
     todo "-= ignoring new operators", 2;

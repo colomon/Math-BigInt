@@ -123,6 +123,23 @@ class Math::BigInt does Real {
         $result;
     }
 
+    my sub Divide(Math::BigInt $a, Math::BigInt $b) {
+        my $result;
+        if $a == 0 {
+            $result = Math::BigInt.new(0);
+        } elsif $b == 0 {
+            $result = fail "Divide by zero";
+        } else {
+            $result = Math::BigInt.new($a, :negate($b.negative));
+            my $r = Math::BigInt.new("1");
+            bdDivide($result.bd, $r.bd, $a.bd, $b.bd);
+            if bdIsZero($result.bd) && $result.negative {
+                $result = Math::BigInt.new(0);
+            }
+        }
+        $result;
+    }
+
     multi sub infix:<+>(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
         Add($a, $b);
     }
@@ -160,17 +177,11 @@ class Math::BigInt does Real {
     }
     
     multi sub infix:<div>(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
-        my $result = Math::BigInt.new("1");
-        my $r = Math::BigInt.new("1");
-        bdDivide($result.bd, $r.bd, $a.bd, $b.bd);
-        $result;
+        Divide($a, $b);
     }
 
     multi sub infix:<div>(Math::BigInt $a, Int $b) is export(:DEFAULT) {
-        my $result = Math::BigInt.new("1");
-        my $r = Math::BigInt.new("1");
-        bdDivide($result.bd, $r.bd, $a.bd, Math::BigInt.new($b).bd);
-        $result;
+        Divide($a, Math::BigInt.new($b));
     }
 
     multi sub infix:<%>(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
