@@ -125,21 +125,15 @@ class Math::BigInt does Real {
     }
 
     multi sub infix:<->(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
-        my $result = Math::BigInt.new("1");
-        bdSubtract($result.bd, $a.bd, $b.bd);
-        $result;
+        Add($a, Math::BigInt.new($b, :negate));
     }
 
     multi sub infix:<->(Math::BigInt $a, Int $b) is export(:DEFAULT) {
-        my $result = Math::BigInt.new("1");
-        bdSubtract($result.bd, $a.bd, Math::BigInt.new($b).bd);
-        $result;
+        Add($a, Math::BigInt.new(-$b));
     }
 
     multi sub infix:<->(Int $a, Math::BigInt $b) is export(:DEFAULT) {
-        my $result = Math::BigInt.new("1");
-        bdSubtract($result.bd, Math::BigInt.new($a).bd, $b.bd);
-        $result;
+        Add(Math::BigInt.new($a), Math::BigInt.new($b, :negate));
     }
 
     multi sub infix:<*>(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
