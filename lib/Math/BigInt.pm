@@ -25,10 +25,10 @@ class Math::BigInt does Real {
     has $.bd;
     has $.negative;
     
-    multi method new(Math::BigInt $other) {
+    multi method new(Math::BigInt $other, :$negate) {
         my $bd = bdNew();
         bdSetEqual($bd, $other.bd);
-        self.bless(*, :$bd, :negative($other.negative));
+        self.bless(*, :$bd, :negative($negate ?? !$other.negative !! $other.negative));
     }
     
     multi method new(Str $digits) {

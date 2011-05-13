@@ -53,6 +53,9 @@ plan *;
     my $c = Math::BigInt.new($a);
     isa_ok $c, Math::BigInt, "We successfully made a BigInt";
     is ~$c, "1234567890098765432100123456789", "Stringifies properly";
+    my $d = Math::BigInt.new($a, :negate);
+    isa_ok $d, Math::BigInt, "We successfully made a BigInt";
+    is ~$d, "-1234567890098765432100123456789", "Stringifies properly";
 }
 
 {
@@ -69,6 +72,9 @@ plan *;
     my $c = Math::BigInt.new($a);
     isa_ok $c, Math::BigInt, "We successfully made a BigInt";
     is ~$c, "-1234567890098765432100123456789", "Stringifies properly";
+    my $d = Math::BigInt.new($a, :negate);
+    isa_ok $d, Math::BigInt, "We successfully made a BigInt";
+    is ~$d, "1234567890098765432100123456789", "Stringifies properly";
 }
 
 {
