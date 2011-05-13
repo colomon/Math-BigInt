@@ -9,6 +9,10 @@ plan *;
     ok $a ~~ Numeric & Real, "It's Numeric and Real, too";
     is ~$a, "1", "Stringifies properly";
     is +$a, 1, "Numifies properly";
+    
+    my $b = Math::BigInt.new($a);
+    isa_ok $b, Math::BigInt, "We successfully made a BigInt";
+    is +$b, 1, "Numifies properly";
 }
 
 {
@@ -17,6 +21,10 @@ plan *;
     ok $a ~~ Numeric & Real, "It's Numeric and Real, too";
     is ~$a, "-1", "Stringifies properly";
     is +$a, -1, "Numifies properly";
+
+    my $b = Math::BigInt.new($a);
+    isa_ok $b, Math::BigInt, "We successfully made a BigInt";
+    is +$b, -1, "Numifies properly";
 }
 
 {
@@ -25,6 +33,10 @@ plan *;
     ok $a ~~ Numeric & Real, "It's Numeric and Real, too";
     is ~$a, "0", "Stringifies properly";
     is +$a, 0, "Numifies properly";
+    
+    my $b = Math::BigInt.new($a);
+    isa_ok $b, Math::BigInt, "We successfully made a BigInt";
+    is +$b, 0, "Numifies properly";
 }
 
 {
@@ -37,6 +49,10 @@ plan *;
     
     my $b = $a.perl.eval;
     is ~$b, ~$b, ".perl.eval works as a round trip";
+    
+    my $c = Math::BigInt.new($a);
+    isa_ok $c, Math::BigInt, "We successfully made a BigInt";
+    is ~$c, "1234567890098765432100123456789", "Stringifies properly";
 }
 
 {
@@ -49,6 +65,10 @@ plan *;
     
     my $b = $a.perl.eval;
     is ~$b, ~$b, ".perl.eval works as a round trip";
+    
+    my $c = Math::BigInt.new($a);
+    isa_ok $c, Math::BigInt, "We successfully made a BigInt";
+    is ~$c, "-1234567890098765432100123456789", "Stringifies properly";
 }
 
 {

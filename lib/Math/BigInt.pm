@@ -2,6 +2,7 @@ use NativeCall;
 
 sub bdNew() returns OpaquePointer is native("libbd") { ... }
 # sub bdFreeSol(OpaquePointer $bd) is native("libbd") { ... }
+sub bdSetEqual(OpaquePointer $bd1, OpaquePointer $bd2) returns Int is native("libbd") { ... }
 sub bdConvFromDecimal(OpaquePointer $bd, Str $digits) returns Int is native("libbd") { ... }
 sub bdIncrement(OpaquePointer $w) returns Int is native("libbd") { ... }
 sub bdDecrement(OpaquePointer $w) returns Int is native("libbd") { ... }
@@ -23,6 +24,12 @@ sub bdSolStrCast(OpaquePointer $s) returns Str is native("libbd") { ... }
 class Math::BigInt does Real {
     has $.bd;
     has $.negative;
+    
+    multi method new(Math::BigInt $other) {
+        my $bd = bdNew();
+        bdSetEqual($bd, $other.bd);
+        self.bless(*, :$bd, :negative($other.negative));
+    }
     
     multi method new(Str $digits) {
         if $digits ~~ /(\-?)(\d+)/ {
@@ -80,6 +87,10 @@ class Math::BigInt does Real {
     
     multi sub postfix:<L>(Int $a) is export(:DEFAULT) {
         Math::BigInt.new(~$a);
+    }
+    
+    my sub Add(Math::BigInt $a, Math::BigInt $b) {
+        
     }
     
     multi sub infix:<+>(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
