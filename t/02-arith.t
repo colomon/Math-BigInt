@@ -14,33 +14,28 @@ plan *;
 }
 
 {
-    my $a = Math::BigInt.new("100000000000000000");
-    my $b = Math::BigInt.new("-1");
+    my @numbers = (-20, -11, -1, 0, 1, 3, 13, 27);
+    
+    for @numbers X @numbers -> $a-int, $b-int {
+        my $a = Math::BigInt.new($a-int);
+        my $b = Math::BigInt.new($b-int);
 
-    my $c = $a + $b;
-    isa_ok $c, Math::BigInt, "100000000000000000 + -1 is a BigInt";
-    todo "infix:<+> doesn't properly handle negative numbers yet", 1;
-    is $c, "99999999999999999", "and it's 99999999999999999";
-}
+        my $c = $a + $b;
+        isa_ok $c, Math::BigInt, "long sum of $a-int and $b-int is a BigInt";
+        is $c, $a-int + $b-int, "and it's { $a-int + $b-int }";
 
-{
-    my $a = Math::BigInt.new("-100000000000000000");
-    my $b = Math::BigInt.new("1");
+        $c = $b + $a;
+        isa_ok $c, Math::BigInt, "long sum of $b-int and $a-int is a BigInt";
+        is $c, $a-int + $b-int, "and it's { $a-int + $b-int }";
 
-    my $c = $a + $b;
-    isa_ok $c, Math::BigInt, "-100000000000000000 + 1 is a BigInt";
-    todo "infix:<+> doesn't properly handle negative numbers yet", 1;
-    is $c, "-99999999999999999", "and it's -99999999999999999";
-}
+        $c = $a + $b-int;
+        isa_ok $c, Math::BigInt, "long sum of $a-int and $b-int is a BigInt";
+        is $c, $a-int + $b-int, "and it's { $a-int + $b-int }";
 
-{
-    my $a = Math::BigInt.new("-100000000000000000");
-    my $b = Math::BigInt.new("-1");
-
-    my $c = $a + $b;
-    isa_ok $c, Math::BigInt, "-100000000000000000 + -1 is a BigInt";
-    todo "infix:<+> doesn't properly handle negative numbers yet", 1;
-    is $c, "-100000000000000001", "and it's -100000000000000001";
+        $c = $a-int + $b;
+        isa_ok $c, Math::BigInt, "long sum of $a-int and $b-int is a BigInt";
+        is $c, $a-int + $b-int, "and it's { $a-int + $b-int }";
+    }
 }
 
 # adding normal ints and BigInts

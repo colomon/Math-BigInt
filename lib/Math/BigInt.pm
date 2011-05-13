@@ -90,25 +90,38 @@ class Math::BigInt does Real {
     }
     
     my sub Add(Math::BigInt $a, Math::BigInt $b) {
-        
+        my $result;
+        if $a.negative == $b.negative {
+            $result = Math::BigInt.new($a);
+            bdAdd($result.bd, $a.bd, $b.bd);
+        } else {
+            given bdCompare($a.bd, $b.bd) {
+                when 0 {
+                    $result = Math::BigInt.new(0);
+                }
+                when -1 {
+                    $result = Math::BigInt.new($b);
+                    bdSubtract($result.bd, $b.bd, $a.bd);
+                }
+                when 1 {
+                    $result = Math::BigInt.new($a);
+                    bdSubtract($result.bd, $a.bd, $b.bd);
+                }
+            }
+        }
+        $result;
     }
     
     multi sub infix:<+>(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
-        my $result = Math::BigInt.new("1");
-        bdAdd($result.bd, $a.bd, $b.bd);
-        $result;
+        Add($a, $b);
     }
 
     multi sub infix:<+>(Math::BigInt $a, Int $b) is export(:DEFAULT) {
-        my $result = Math::BigInt.new("1");
-        bdAdd($result.bd, $a.bd, Math::BigInt.new($b).bd);
-        $result;
+        Add($a, Math::BigInt.new($b));
     }
 
     multi sub infix:<+>(Int $a, Math::BigInt $b) is export(:DEFAULT) {
-        my $result = Math::BigInt.new("1");
-        bdAdd($result.bd, Math::BigInt.new($a).bd, $b.bd);
-        $result;
+        Add(Math::BigInt.new($a), $b);
     }
 
     multi sub infix:<->(Math::BigInt $a, Math::BigInt $b) is export(:DEFAULT) {
